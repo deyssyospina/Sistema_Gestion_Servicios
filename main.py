@@ -295,3 +295,151 @@ def iniciar_sistema():
     #
     # MEJORA POSTERIOR:
     # Se procesa la reserva con valores validos antes de confirmarla.
+# OPERACION 13: Procesamiento y confirmacion de segunda reserva.
+    if reserva2:
+
+        ejecutar_operacion(
+            13,
+            "Procesamiento y confirmacion de segunda reserva",
+            lambda: procesar_y_confirmar_reserva(reserva2)
+        )
+
+    else:
+
+        omitir_operacion(
+            13,
+            "Procesamiento y confirmacion de segunda reserva",
+            "La reserva 2 no existe."
+        )
+
+    # OPERACION 14: Cancelacion de la primera reserva.
+    if reserva1:
+
+        ejecutar_operacion(
+            14,
+            "Cancelacion de reserva",
+            lambda: reserva1.cancelar()
+        )
+
+    else:
+
+        omitir_operacion(
+            14,
+            "Cancelacion de reserva",
+            "La reserva 1 no existe."
+        )
+
+    # SIMULACIONES INVALIDAS ADICIONALES.
+
+    # OPERACION 15: Prueba de identificacion vacia.
+    ejecutar_operacion(
+        15,
+        "Registro de cliente con identificacion vacia",
+        lambda: Cliente(
+            "",
+            "Andres Ruiz",
+            "andres@gmail.com",
+            "3001234567"
+        )
+    )
+
+    # OPERACION 16: Prueba de nombre vacio.
+    ejecutar_operacion(
+        16,
+        "Registro de cliente con nombre vacio",
+        lambda: Cliente(
+            "1004",
+            "",
+            "andres@gmail.com",
+            "3001234567"
+        )
+    )
+
+    # OPERACION 17: Prueba de telefono con letras.
+    ejecutar_operacion(
+        17,
+        "Registro de cliente con telefono invalido",
+        lambda: Cliente(
+            "1005",
+            "Laura Perez",
+            "laura@gmail.com",
+            "300ABC4567"
+        )
+    )
+
+    # OPERACION 18: Prueba de telefono demasiado corto.
+    ejecutar_operacion(
+        18,
+        "Registro de cliente con telefono corto",
+        lambda: Cliente(
+            "1006",
+            "Andres Gomez",
+            "andres2@gmail.com",
+            "12345"
+        )
+    )
+
+    # OPERACION 19: Prueba de nombre de servicio vacio.
+    ejecutar_operacion(
+        19,
+        "Creacion de servicio con nombre vacio",
+        lambda: ReservaSala("", 50000)
+    )
+
+    # OPERACION 20: Prueba de precio igual a cero.
+    ejecutar_operacion(
+        20,
+        "Creacion de servicio con precio cero",
+        lambda: AlquilerEquipo("Equipo de prueba", 0)
+    )
+
+    # OPERACION 21: Prueba de duracion igual a cero.
+    if cliente1 and sala:
+
+        ejecutar_operacion(
+            21,
+            "Creacion de reserva con duracion cero",
+            lambda: Reserva(cliente1, sala, 0)
+        )
+
+    else:
+
+        omitir_operacion(
+            21,
+            "Creacion de reserva con duracion cero",
+            "Falta el cliente 1 o la sala."
+        )
+
+    # RESUMEN FINAL DEL SISTEMA.
+    print("\n" + "=" * 45)
+    print(" RESUMEN DEL SISTEMA")
+    print("=" * 45)
+
+    # Muestra la cantidad de elementos registrados.
+    print("Clientes registrados:", len(clientes))
+    print("Servicios creados:", len(servicios))
+    print("Reservas creadas:", len(Reserva.reservas))
+
+    # Muestra la informacion de las reservas.
+    for reserva in Reserva.reservas:
+
+        # MODIFICACION 5:
+        # Se comprueba que mostrar_reserva() devuelva informacion
+        # antes de imprimirla, evitando mostrar el valor None.
+        detalle = reserva.mostrar_reserva()
+
+        if detalle is not None:
+            print("\n" + str(detalle))
+
+    # Finaliza el programa y registra el cierre.
+    print("\nEl sistema finalizo sus operaciones.")
+    print("Los eventos y errores se guardaron en el archivo de logs.")
+
+    registrar_evento(
+        "Finalizacion de las operaciones del sistema."
+    )
+
+
+# Ejecuta el sistema cuando se inicia este archivo.
+if __name__ == "__main__":
+    iniciar_sistema()
